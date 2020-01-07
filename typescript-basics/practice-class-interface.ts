@@ -25,3 +25,4 @@ const shapes: Shape[] = [new Circle(3), new Rectangle(2,3)]
 shapes.forEach( shape => {
     console.log(shape.getArea())
 })
+

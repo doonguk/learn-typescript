@@ -11,8 +11,8 @@ const Hello: React.FC<helloProps> = ({name, say}) => {
     )
 }
 
-Hello.defaultProps = {
-    say : 'thank you'
-}
+// Hello.defaultProps = {
+//     say : 'thank you'
+// } Error!
 
 export default Hello

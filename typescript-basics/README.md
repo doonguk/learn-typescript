@@ -93,7 +93,7 @@ var test = "this variable must be string";
 
 ### 기본타입
 
-> [기본타입 자세히 알아보기]([https://typescript-kr.github.io/pages/Basic%20Types.html](https://typescript-kr.github.io/pages/Basic Types.html))
+> [기본타입 자세히 알아보기](https://typescript-kr.github.io/pages/Basic%20Types.html)
 
 ```typescript
 const test: string = "this variable must be string type" // 문자열
@@ -186,7 +186,7 @@ shapes.forEach( shape => {
 })
 ```
 
-**interface를 implements 하여 구현한 클래스를 통해 생성된 객체는 타입을 해당 interface로 지정해 줄 수 있다. ** 그리고 
+**interface를 implements 하여 구현한 클래스를 통해 생성된 객체는 타입을 해당 interface로 지정해 줄 수 있다.** 그리고 
 
 타입스크립트 에서는 <code>public, priavte accessor</code>를 이용하면 클래스 내부 멤버변수를 선언할 때 위와 같이 하나하나 지정해 주지 않아도 된다. 
 

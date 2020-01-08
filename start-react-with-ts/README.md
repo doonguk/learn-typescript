@@ -1,44 +1,151 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Start React With TypeScript
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `yarn start`
+### 1. 프로젝트 생성
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+$ create-react-app start-react-with-ts --template typescript
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+기존 리액트 프로젝트를 생성하는 CLI에서 옵션으로 `--template typescript` 주면 된다. ( `--typescript`만 해도 가능 )
 
-### `yarn test`
+생성 후 프로젝트를 확인 해보면 typescript 기반 리액트 컴포넌트는 `.tsx` 를 확장자로 갖는다.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2. React.FC
 
-### `yarn build`
+```react
+const App: React.FC = () => {
+  return (
+   {...}
+  );
+}
+```
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ `App.tsx` 파일을 보면 App 이라는 함수형 컴포넌트를 `React.FC` 타입을 이용하여 선언 해 주었다.  이렇게 선언하는 것은 장단점이 존재 한다. 장단점을 살펴보기 위해 Hello라는 컴포넌트를 만들어 보자.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+##### Hello.tsx
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```react
+type helloProps = {
+  name: string
+  say: string
+}
 
-### `yarn eject`
+const Hello: React.FC<helloProps> = ({name, say}) => {
+  return(
+  	<div>Hi my name is {name}. {say}!</div>
+  )
+}
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+`React.FC` 타입은 `Generic` 으로 컴포넌트가 받아야 할 props 들을 타입으로 받는다. 예제 에서는 `type alias` 를 이용하여 props의 타입을 지정 해 줬는데, `interface` 를 사용해도 상관 없다. 단, 일관성 있게만 사용하자.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+`React.FC` 타입의 첫번째 장점은
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+![image](https://user-images.githubusercontent.com/39187116/72000745-4ce0dc00-3287-11ea-89fd-8745c4578100.png)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+props의 default 값으로 children이 들어가 있다는 것 이다. ( 근데 사실 크게 장점이라고 말하기 좀 그렇다... )
 
-## Learn More
+두번째 장점은 `defaultProps, propTypes, contextTypes` 를 지정할 때 자동완성이 된다는 점이다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![image](https://user-images.githubusercontent.com/39187116/72000887-9e896680-3287-11ea-89ec-d1e53cb3dc87.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+하지만 `defaultProps` 를 지정할 때 문제가 있다.**`React.FC`를 이용한 타입 지정은 defaultProps가 동작하지 않는다.**  예시로 name props는 값을 부모 컴포넌트에서 받고 defaultProps로 say 값만 지정한다고 한다고 할 때 타입이 올바르지 않다고 컴파일 에러가 발생한다.
+
+따라서 `React.FC` 는 별로 좋지 않은 것 같다. `React.FC` 를 지워서 같은 기능을 하는 Nice 컴포넌트를 만들어 보자.
+
+```react
+type niceProps = {
+  name: string
+  say: string
+}
+
+const Nice = ({name, say}: niceProps) => {
+  return(
+     <div>Hi my name is {name}. {say}!</div>
+  )
+}
+
+Nice.defaultProps = {
+  name:'donguk',
+  say:'thank you'
+}
+```
+
+`React.FC` 를 지우고 객체(`props`)에 타입을 지정하였다. 이렇게 하면 `defaultProps` 를 지정해도 잘 동작한다. 
+
+
+
+### 2. 생략할 수 있는 Props 설정
+
+생략 할 수 있는 `props`를 설정 할 때에는 ? 를 사용하면 된다.
+
+```react
+type niceProps = {
+  name: string
+  say: string
+  options?: string
+}
+
+const Nice = ({name, say, options}: niceProps) => {
+  return(
+    <>
+    	<div>Hi my name is {name}. {say}!</div>
+    	{options && <div>Here is {options}</div>}
+    </>
+  )
+}
+
+Nice.defaultProps = {
+  name:'donguk',
+  say:'thank you'
+}
+```
+
+
+
+### 3. 함수를 props로 받기
+
+##### Nice.tsx
+
+```react
+type niceProps = {
+  name: string
+  say: string
+  options?: string
+  func: (name: string) => void // return nothing
+}
+  
+  const Nice = ({name, say, options, func}: niceProps) => {
+  return(
+    <>
+    	<div>Hi my name is {name}. {say}!</div>
+    	{options && <div>Here is {options}</div>}
+      <button onClick={()=>func(name)}>Click</button>
+    </>
+  )
+}
+
+Nice.defaultProps = {
+  name:'donguk',
+  say:'thank you'
+}
+```
+
+#### App.tsx
+
+```react
+const App: React.FC = () => {
+    const handleClick = (name: string) => {
+        console.log('name name', name)
+    }
+    return (
+        <>
+            <Hello name="donguk" say="thank you"/>
+            <Nice func={handleClick}/>
+        </>
+    );
+}
+```
+

@@ -1,6 +1,6 @@
 import React, {useReducer} from 'react'
 
-type Action = {type:'INCREASE'} | {type:'DECREASE'}
+type Action = {type:'INCREASE'} | {type:'DECREASE'} // | 를 이용하여 액션을 나열하자.
 function reducer(state: number, action: Action): number{
   switch (action.type) {
     case 'INCREASE':

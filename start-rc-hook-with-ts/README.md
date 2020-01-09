@@ -23,10 +23,10 @@ function Counter(){
 }
 ```
 
-- `useState` 에서 타입 지정은 `Generics` 로 state의 타입을 지정 해 준다. 
+- `useState` 에서 타입 지정은 `Generics` 로 state의 타입을 지정해 준다. 
 
 - 타입을 생략해도 `useState` 가 알아서 인식하긴 한다. 
-- 하지만 state의 타입이 **null 값 일 수도 있거나 복잡한 state 또는 배열** 을 선언 할 때에는 타입을 지정 해 줘야한다.
+- 하지만 state의 타입이 **null 값 일 수도 있거나 복잡한 state 또는 배열** 을 선언 할 때에는 타입을 지정해 줘야한다.
 
 ```javascript
 type people = { name: string, age: number }

@@ -1,4 +1,4 @@
-import {createContext, Dispatch} from 'react'
+import {createContext, Dispatch, useReducer, useContext} from 'react'
 
 export type Todo = {
   id: number;
@@ -7,7 +7,7 @@ export type Todo = {
 }
 
 type TodoState = Todo[]
-const todoStateContext = createContext<TodoState | undefined>(undefined)
+const TodoStateContext = createContext<TodoState | undefined>(undefined)
 
 type Action =
   | {type: 'CREATE', text: string}
@@ -15,9 +15,9 @@ type Action =
   | {type: 'REMOVE', id: number};
 
 type TodoDispatch = Dispatch<Action>
-const todoDispatchContext = createContext<TodoDispatch | undefined>(undefined)
+const TodoDispatchContext = createContext<TodoDispatch | undefined>(undefined)
 
-function TodoReducer(state: TodoState, action:Action):TodoState {
+function todoReducer(state: TodoState, action:Action):TodoState {
   switch(action.type){
     case 'CREATE': {
       const nextId = Math.max(...state.map(el => el.id)) +1
@@ -32,4 +32,43 @@ function TodoReducer(state: TodoState, action:Action):TodoState {
     default:
       throw new Error('Unhandled Action')
   }
+}
+
+export function TodoContextProvider({children} : {children: React.ReactNode} ){
+  const [todos, dispatch] = useReducer(todoReducer, [
+    {
+      id: 1,
+      text: 'Context API 배우기',
+      done: true
+    },
+    {
+      id: 2,
+      text: 'TypeScript 배우기',
+      done: true
+    },
+    {
+      id: 3,
+      text: 'TypeScript 와 Context API 함께 사용하기',
+      done: false
+    }
+  ])
+  return(
+    <TodoDispatchContext.Provider value={dispatch}>
+      <TodoStateContext.Provider value={todos}>
+        {children}
+      </TodoStateContext.Provider>
+    </TodoDispatchContext.Provider>
+  )
+}
+
+export function useTodosState(){
+  const state = useContext(TodoStateContext)
+  if(!state) throw new Error('TodoProvider does not found')
+  return state
+}
+
+export function useTodosDisaptch(){
+  const dispatch = useContext(TodoDispatchContext)
+  if(!dispatch) throw new Error('TodoProvider does not found')
+  return dispatch
 }

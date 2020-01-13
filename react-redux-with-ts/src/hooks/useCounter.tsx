@@ -5,7 +5,7 @@ import {increase, decrease, increaseBy} from "../modules/counter"
 
 export default function useCounter(){
   const dispatch = useDispatch()
-  const counter = useSelector((state: RootState) => state.counter)
+  const {count} = useSelector((state: RootState) => state.counter)
   const onIncrease = useCallback(()=>{
     dispatch(increase())
   },[dispatch])
@@ -17,7 +17,7 @@ export default function useCounter(){
   },[dispatch])
 
   return{
-    counter,
+    count,
     onDecrease,
     onIncrease,
     onIncreaseBy

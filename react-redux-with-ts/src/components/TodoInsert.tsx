@@ -1,15 +1,15 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import useTodos from "../hooks/useTodos"
+import useAddTodo from "../hooks/useAddTodo"
 
 function TodoInsert() {
   const [value, setValue] = useState('');
-  const {onAddTodo} = useTodos()
+  const addTodo = useAddTodo()
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onAddTodo(value)
+    addTodo(value)
     setValue('');
   };
 

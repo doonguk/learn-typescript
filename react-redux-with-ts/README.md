@@ -1,6 +1,6 @@
 > # TypeScript Redux 프로젝트에 적용하기
 
-
+<br/>
 
 ### 1.  Install Package
 
@@ -170,11 +170,11 @@ export default Counter;
 
 Hook을 사용할 컴포넌트 에서는 작성한 Custom Hook을 `import` 하여 사용한다.
 
-
+<br/>
 
 > # typesafe-actions로 redux 모듈 리팩토링
 
-
+<br/>
 
 ### 1. 필요한 모듈 import
 

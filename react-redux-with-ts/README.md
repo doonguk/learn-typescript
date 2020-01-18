@@ -1,4 +1,4 @@
-> #TypeScript Redux 프로젝트에 적용하기
+> # TypeScript Redux 프로젝트에 적용하기
 
 
 
@@ -172,7 +172,7 @@ Hook을 사용할 컴포넌트 에서는 작성한 Custom Hook을 `import` 하�
 
 
 
-> #typesafe-actions로 redux 모듈 리팩토링
+> # typesafe-actions로 redux 모듈 리팩토링
 
 
 
